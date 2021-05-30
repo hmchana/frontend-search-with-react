@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import JSONDATA from './MOCK_DATA.json';
 import './App.css';
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState('');
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <input
+        type='text'
+        placeholder='Search...'
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      {JSONDATA.filter((val) => {
+        if (searchTerm === '') {
+          return val;
+        } else if (
+          val.first_name
+            .toLocaleLowerCase()
+            .includes(searchTerm.toLocaleLowerCase())
+        ) {
+          return val;
+        }
+      }).map((elem, index) => {
+        return (
+          <div key={index}>
+            <p>{elem.first_name} </p>
+          </div>
+        );
+      })}
     </div>
   );
 }
